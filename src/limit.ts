@@ -10,7 +10,7 @@ export const limit: <T>(
   }
 }
 
-export const limitAsync: <T>(
+export const asyncLimit: <T>(
   iter: AsyncIterableIterator<T>,
   upper: number
 ) => AsyncIterableIterator<T> = async function*(iter, upper) {
