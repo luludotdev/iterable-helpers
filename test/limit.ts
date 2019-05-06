@@ -9,23 +9,24 @@ test('is a function', t => {
 test('limits a finite series', t => {
   const limiter = 5
   const gen = limit(oneToN(), limiter)
-  const values = []
+  const values = [...gen]
 
-  for (const v of gen) {
-    values.push(v)
-  }
-
-  t.is(values.length, limiter)
+  return t.is(values.length, limiter)
 })
 
 test('limits an infinite series', t => {
   const limiter = 5
   const gen = limit(infinite(), limiter)
-  const values = []
+  const values = [...gen]
 
-  for (const v of gen) {
-    values.push(v)
-  }
+  return t.is(values.length, limiter)
+})
 
-  t.is(values.length, limiter)
+test('does not fail when limit is higher than iterator length', t => {
+  const base = oneToN(10)
+  const gen = limit(oneToN(10), 200)
+
+  const baseValues = [...base]
+  const values = [...gen]
+  return t.is(baseValues.length, values.length)
 })

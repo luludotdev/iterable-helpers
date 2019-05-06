@@ -29,3 +29,21 @@ test('limits an infinite series', async t => {
 
   t.is(values.length, limiter)
 })
+
+test('does not fail when limit is higher than iterator length', async t => {
+  const base = asyncOneToN(10)
+  const gen = asyncLimit(asyncOneToN(10), 200)
+
+  const baseValues = []
+  const values = []
+
+  for await (const v of base) {
+    baseValues.push(v)
+  }
+
+  for await (const v of gen) {
+    values.push(v)
+  }
+
+  return t.is(baseValues.length, values.length)
+})
