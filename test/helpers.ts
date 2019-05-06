@@ -1,6 +1,6 @@
-export function* oneToN(n: number = 10) {
+export function* oneToN(n: number = 10, stringed?: boolean) {
   for (let i = 1; i <= n; i++) {
-    yield i
+    yield stringed ? `${i}` : i
   }
 }
 
@@ -12,9 +12,9 @@ export function* infinite() {
   }
 }
 
-export async function* asyncOneToN(n: number = 10) {
+export async function* asyncOneToN(n: number = 10, stringed?: boolean) {
   for (let i = 1; i <= n; i++) {
-    yield i
+    yield stringed ? `${i}` : i
   }
 }
 
