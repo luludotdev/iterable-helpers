@@ -11,16 +11,16 @@
     "lib/**/*"
   ],
   "scripts": {
-    "prepublishOnly": "npm run test && npm run build",
-    "test": "npm run check && npm run lint && npm run ava",
+    "prepublishOnly": "yarn run test && yarn run build",
+    "test": "yarn run check && yarn run lint && yarn run ava",
     "ava": "nyc --reporter=html --reporter=text ava",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "check": "npm run build -- --noEmit",
+    "check": "yarn run build --noEmit",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "prebuild": "rimraf lib",
     "build": "tsc --sourceMap",
     "watch": "tsc --watch",
-    "dev": "npm run watch -- --sourceMap"
+    "dev": "yarn run watch  --sourceMap"
   },
   "repository": "git@github.com:lolPants/iterable-helpers.git",
   "author": "Jack Baron <jackmbaron@gmail.com> (https://www.jackbaron.com)",
