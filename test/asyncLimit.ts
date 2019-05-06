@@ -1,6 +1,31 @@
 import test from 'ava'
 import { asyncLimit } from '../src'
+import { asyncInfinite, asyncOneToN } from './helpers'
 
 test('is a function', t => {
   return t.is(typeof asyncLimit, 'function')
+})
+
+test('limits a finite series', async t => {
+  const limiter = 5
+  const gen = asyncLimit(asyncOneToN(), limiter)
+  const values = []
+
+  for await (const v of gen) {
+    values.push(v)
+  }
+
+  t.is(values.length, limiter)
+})
+
+test('limits an infinite series', async t => {
+  const limiter = 5
+  const gen = asyncLimit(asyncInfinite(), limiter)
+  const values = []
+
+  for await (const v of gen) {
+    values.push(v)
+  }
+
+  t.is(values.length, limiter)
 })
