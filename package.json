@@ -2,41 +2,48 @@
   "name": "iterable-helpers",
   "version": "0.1.1",
   "description": "Various helper functions for IterableIterators",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
-  "directories": {
-    "lib": "lib"
-  },
+  "main": "./lib/index.js",
+  "module": "./esm/index.js",
+  "types": "./lib/index.d.ts",
+  "sideEffects": false,
   "files": [
-    "lib/**/*"
+    "lib/**/*",
+    "esm/**/*"
   ],
+  "engines": {
+    "node": ">=8.0.0"
+  },
   "scripts": {
     "prepublishOnly": "yarn run test && yarn run build",
     "test": "yarn run check && yarn run lint && yarn run ava",
     "ava": "nyc --reporter=html --reporter=text ava",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "check": "yarn run build --noEmit",
+    "check": "yarn run compile --noEmit",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
-    "prebuild": "rimraf lib",
-    "build": "tsc --sourceMap",
-    "watch": "tsc --watch",
+    "prebuild": "rimraf lib esm",
+    "build:cjs": "ncc build ./src/index.ts -o lib -m",
+    "build:esm": "yarn run compile --module ES6 --outDir esm",
+    "build": "yarn run build:cjs && yarn run build:esm",
+    "compile": "tsc",
+    "watch": "yarn run compile --watch",
     "dev": "yarn run watch  --sourceMap"
   },
   "repository": "git@github.com:lolPants/iterable-helpers.git",
   "author": "Jack Baron <jackmbaron@gmail.com> (https://www.jackbaron.com)",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^12.0.0",
-    "ava": "^1.4.1",
-    "coveralls": "^3.0.3",
-    "nyc": "^14.1.0",
-    "prettier": "^1.17.0",
-    "rimraf": "^2.6.3",
-    "ts-node": "^8.1.0",
-    "tslint": "^5.16.0",
+    "@types/node": "^13.1.1",
+    "@zeit/ncc": "^0.20.5",
+    "ava": "^2.4.0",
+    "coveralls": "^3.0.9",
+    "nyc": "^15.0.0",
+    "prettier": "^1.19.1",
+    "rimraf": "^3.0.0",
+    "ts-node": "^8.5.4",
+    "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
-    "tslint-plugin-prettier": "^2.0.1",
-    "typescript": "^3.4.5"
+    "tslint-plugin-prettier": "^2.1.0",
+    "typescript": "^3.7.4"
   },
   "ava": {
     "compileEnhancements": false,
