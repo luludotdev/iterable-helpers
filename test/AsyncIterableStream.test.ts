@@ -1,20 +1,20 @@
 import test from 'ava'
-import { Readable } from 'stream'
-import { AsyncIterableStream } from '../src'
-import { asyncOneToN } from './helpers'
+import { Readable } from 'node:stream'
+import { AsyncIterableStream } from '../src/index.js'
+import { asyncOneToN } from './helpers.js'
 
 test('is a function', t => {
-  return t.is(typeof AsyncIterableStream, 'function')
+  t.is(typeof AsyncIterableStream, 'function')
 })
 
 test('is a readable stream', t => {
-  return t.is(AsyncIterableStream.prototype instanceof Readable, true)
+  t.is(AsyncIterableStream.prototype instanceof Readable, true)
 })
 
 test('transforms an iterable', async t => {
   const limiter = 10
 
-  const promise: () => Promise<string[]> = () =>
+  const promise: () => Promise<string[]> = async () =>
     new Promise(resolve => {
       const gen = asyncOneToN(limiter, true)
       const stream = new AsyncIterableStream(gen)
@@ -25,5 +25,5 @@ test('transforms an iterable', async t => {
     })
 
   const asyncTest = await promise()
-  return t.is(asyncTest.length, limiter)
+  t.is(asyncTest.length, limiter)
 })

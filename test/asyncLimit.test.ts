@@ -1,9 +1,9 @@
 import test from 'ava'
-import { asyncLimit } from '../src'
-import { asyncInfinite, asyncOneToN } from './helpers'
+import { asyncLimit } from '../src/index.js'
+import { asyncInfinite, asyncOneToN } from './helpers.js'
 
 test('is a function', t => {
-  return t.is(typeof asyncLimit, 'function')
+  t.is(typeof asyncLimit, 'function')
 })
 
 test('limits a finite series', async t => {
@@ -45,5 +45,5 @@ test('does not fail when limit is higher than iterator length', async t => {
     values.push(v)
   }
 
-  return t.is(baseValues.length, values.length)
+  t.is(baseValues.length, values.length)
 })

@@ -1,9 +1,9 @@
 import test from 'ava'
-import { limit } from '../src'
-import { infinite, oneToN } from './helpers'
+import { limit } from '../src/index.js'
+import { infinite, oneToN } from './helpers.js'
 
 test('is a function', t => {
-  return t.is(typeof limit, 'function')
+  t.is(typeof limit, 'function')
 })
 
 test('limits a finite series', t => {
@@ -11,7 +11,7 @@ test('limits a finite series', t => {
   const gen = limit(oneToN(), limiter)
   const values = [...gen]
 
-  return t.is(values.length, limiter)
+  t.is(values.length, limiter)
 })
 
 test('limits an infinite series', t => {
@@ -19,7 +19,7 @@ test('limits an infinite series', t => {
   const gen = limit(infinite(), limiter)
   const values = [...gen]
 
-  return t.is(values.length, limiter)
+  t.is(values.length, limiter)
 })
 
 test('does not fail when limit is higher than iterator length', t => {
@@ -28,5 +28,5 @@ test('does not fail when limit is higher than iterator length', t => {
 
   const baseValues = [...base]
   const values = [...gen]
-  return t.is(baseValues.length, values.length)
+  t.is(baseValues.length, values.length)
 })

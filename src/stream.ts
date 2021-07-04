@@ -1,7 +1,7 @@
-import { Readable } from 'stream'
+import { Readable } from 'node:stream'
 
 export class IterableStream<T> extends Readable {
-  private _iter: IterableIterator<T>
+  private readonly _iter: IterableIterator<T>
 
   constructor(iter: IterableIterator<T>, objectMode?: boolean) {
     super({ objectMode })
@@ -12,6 +12,6 @@ export class IterableStream<T> extends Readable {
     const { done, value } = this._iter.next()
 
     if (done) return this.push(null)
-    else this.push(value)
+    this.push(value)
   }
 }

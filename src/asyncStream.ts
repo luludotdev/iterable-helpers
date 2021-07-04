@@ -1,7 +1,7 @@
-import { Readable } from 'stream'
+import { Readable } from 'node:stream'
 
 export class AsyncIterableStream<T> extends Readable {
-  private _iter: AsyncIterableIterator<T>
+  private readonly _iter: AsyncIterableIterator<T>
 
   constructor(iter: AsyncIterableIterator<T>, objectMode?: boolean) {
     super({ objectMode })
@@ -9,9 +9,10 @@ export class AsyncIterableStream<T> extends Readable {
   }
 
   public _read() {
-    this._iter.next().then(({ value, done }) => {
+    // eslint-disable-next-line promise/prefer-await-to-then
+    void this._iter.next().then(({ value, done }) => {
       if (done) return this.push(null)
-      else this.push(value)
+      this.push(value)
     })
   }
 }
